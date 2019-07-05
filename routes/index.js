@@ -14,8 +14,8 @@ router.get('/dashboard', ensureAuthenticated,
 });
 
 router.get('/admin', ensureAuthenticated, (req, res) => 
-  res.render('admin'));
+  res.render('admin', {user: req.user}));
 
-router.get('/games', ensureAuthenticated, game_controller.display_games);
+router.get('/games', ensureAuthenticated, game_controller.index);
 
 module.exports = router;

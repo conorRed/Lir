@@ -1,2 +1,22 @@
-<h1 class="center">Games</h1>
-<% include ./partials/gameStub %>
+<div class="dashboard-header">
+  <h1 class="text-center">Games</h1>
+</div>
+  <div class="row">
+    <div class="col-sm-3">
+      <a class="btn btn-primary btn-block" href="/games/create">Create game</a>
+    </div>
+    <div class="col-sm-6">
+      <ul class="list-group">
+        <% if( typeof games != 'undefined') { %>
+          <% games.forEach(function(game) { %>
+              <li class="list-group-item card">
+                <a href='/games/<%= game.id %>'><%= game.title %></a>
+              </li>
+          <% }); %>
+        <% } else { %>
+            <li class="list-group-item card">Nothing to see here...</li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+  </div>

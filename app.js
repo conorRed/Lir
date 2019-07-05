@@ -38,6 +38,7 @@ app.use((req, res, next) => {
 
 app.use('/', require('./routes/index.js'))
 app.use('/users', require('./routes/users.js'))
+app.use('/games', require('./routes/games.js'))
 const PORT = process.env.PORT || 5000;
 
 

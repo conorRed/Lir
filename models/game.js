@@ -8,6 +8,10 @@ let GameSchema = new Schema({
   home: {type: String, required: true},
   away: {type: String, required: true},
   venue: {type: String, required: true},
+  user: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  }]
 });
 
 module.exports = mongoose.model("game", GameSchema);
