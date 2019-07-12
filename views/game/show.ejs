@@ -1,14 +1,81 @@
+<%= console.log(success_msg) %>
+<% if(success_msg  != ''){ %>
+  <div class="alert alert-success alert-dismissible fade show row" role="alert">
+    <%= success_msg %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% } %>
 <div class="row">
-  <div class="col-sm-3 card">
+  <div class="col-sm-3 card fixed-card">
     <h3>Details</h3>
     <p><strong>Title: </strong><%= game.title %></p>
     <p><strong>Home: </strong><%= game.home %></p>
     <p><strong>Away: </strong><%= game.away %></p>
     <p><strong>Venue: </strong><%= game.venue %></p>
   </div>
-  <div class="col-sm-6 card">
-    <h2>Events</h2>
+  <div class="col-sm-6">
+    <div id="passes" class="card">
+      <div class="text-center border-bottom">
+          <h2>Passes <a class="btn btn-primary" data-toggle="modal" href="#addPass" data-target="#addPass">
+              <i class="fas fa-plus"></i>
+            </a>
+          <h2>
+      </div>
+      <div class="scroll-card">
+        <ul class="list-group">
+          <% include ../partials/event %>
+        </ul>
+      </div>
+    </div>
   </div>
   <div class="col">
   </div>
 </div>
+  <!-- Add event Modal -->
+  <div class="modal fade" id="addPass" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Pass</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <% include ../partials/addPass %>
+          <input type="hidden" value="pass" name="eventType" form="event-list-add-form">
+          <input type="hidden" value="<%= game.id %>" name="game" form="event-list-add-form">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" form="event-list-add-form">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update event Modal -->
+  <div class="modal fade" id="updatePass" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Pass</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <% include ../partials/event/update %>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" form="event-list-update-form" class="btn btn-primary"
+            form="event-list-add-form">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript" src="/js/events.js"></script>

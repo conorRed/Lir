@@ -10,12 +10,8 @@ router.get('/', (req, res) => {
 // Dashboard
 router.get('/dashboard', ensureAuthenticated,
   game_controller.list_games,
-  (req, res) =>{res.render('dashboard', { user: req.user, games: req.games })
-});
-
-router.get('/admin', ensureAuthenticated, (req, res) => 
-  res.render('admin', {user: req.user}));
-
-router.get('/games', ensureAuthenticated, game_controller.index);
+  (req, res) =>{
+    res.render('dashboard', { games: req.games })
+}); 
 
 module.exports = router;

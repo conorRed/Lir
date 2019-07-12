@@ -21,7 +21,10 @@ app.use(
   session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 18000000
+    }
   })
 );
 
@@ -39,6 +42,9 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index.js'))
 app.use('/users', require('./routes/users.js'))
 app.use('/games', require('./routes/games.js'))
+app.use('/admin', require('./routes/admin.js'))
+app.use('/events', require('./routes/events.js'))
+app.use('/api', require('./routes/api/index.js'))
 const PORT = process.env.PORT || 5000;
 
 

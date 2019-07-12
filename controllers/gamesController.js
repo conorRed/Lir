@@ -1,5 +1,7 @@
 const Game = require('../models/game')
+const Pass = require('../models/pass')
 const { body,validationResult } = require('express-validator');
+const async = require('async')
 
 exports.index = (req, res) => {
   console.log(req)
@@ -10,17 +12,24 @@ exports.index = (req, res) => {
     });
 }
 
-exports.game_show_get = (req, res) => {
-  Game.findById(req.params.id, 'title home away venue _id')
-    .exec(function (err, game) {
-      if (err) { return next(err); }
-      res.render('game/show', {game: game})
-    });
+exports.game_show_get = (req, res, next) => {
+  async.parallel({
+    game: function(callback){
+      Game.findById(req.params.id, 'title home away venue _id') .exec(callback);
+    },
+    passes: function(callback){
+      Pass.find({game: req.params.id}).exec(callback)
+    }
+  }, function(err, results){
+    if(err){return next(err)}
+    res.render('game/show', {game: results.game, passes: results.passes})
+  })
 }
 
 exports.game_create_get = (req, res, next) => {
   res.render('./game/create')
 }
+
 exports.game_create_post = [
   body('title', 'Title not be empty').isLength({min: 1}).trim(),
   body('away', 'Away not be empty').isLength({min: 1}).trim(),
@@ -29,7 +38,6 @@ exports.game_create_post = [
   (req, res, next) => {
     const errors = validationResult(req);
 
-    console.log(errors)
     if(!errors.isEmpty()){
       res.render('game/create', {errors: errors.array()})
     }

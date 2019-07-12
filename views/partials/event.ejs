@@ -1,0 +1,39 @@
+<% if(passes) { %>
+  <% passes.forEach(function(pass) { %>
+    <li class="list-group-item card">
+      <div class="text-dark">
+        <span><%= pass.from %></span>
+        <i class="fas fa-arrow-right"></i>
+        <span><%= pass.to %></span>
+        <span><%= pass.outcome %></span>
+        <span><%= pass.area %></span>
+        <span><%= pass.type %></span>
+        <button class="button-to-link float-right edit-event"
+        type="button" form="edit-pass-<%=pass.id%>"
+        data-toggle="modal" data-target="#updatePass">
+          <i class="fas fa-edit float-right"></i>
+        </button>
+        <form style="display: none;" type="hidden" id="edit-pass-<%=pass.id%>">
+          <input type="hidden" value="<%= pass.from %>" name="from">
+          <input type="hidden" value="<%= pass.to %>" name="to">
+          <input type="hidden" value="<%= pass.outcome %>" name="outcome">
+          <input type="hidden" value="<%= pass.area %>" name="area">
+          <input type="hidden" value="<%= pass.type %>" name="type">
+          <input type="hidden" value="<%= pass.id %>" name="passId">
+          <input type="hidden" value="<%= game.id %>" name="game">
+        </form>
+        <button class="button-to-link float-right" type="submit"
+        form="delete-pass-<%=pass.id%>">
+          <i class="fas fa-trash-alt float-right"></i>
+        </button>
+      </div>
+      <form action="/events/delete" method="POST" id="delete-pass-<%=pass.id%>">
+        <input type="hidden" value="pass" name="eventType">
+        <input type="hidden" value="<%= pass.id %>" name="passId">
+        <input type="hidden" value="<%= game.id %>" name="game">
+      </form>
+    </li>
+  <% }); %>
+<% } else { %>
+  <li class="list-group-item card">Nothing to see here...</li>
+<% } %>
