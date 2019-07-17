@@ -19,12 +19,6 @@ _connect() {
          .catch(err => {
            console.error('Database connection error')
          })
-    process.on('SIGINT', function() {
-      mongoose.connection.close(function () {
-        console.log('Mongoose default connection disconnected through app termination');
-        process.exit(0);
-      });
-    });
     mongoose.Promise = Promise
   }
 }

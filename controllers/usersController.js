@@ -25,16 +25,11 @@ exports.user_create_post = [
       team: req.body.team,
       isAdmin: req.body.isAdmin
     });
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(user.password, salt, (err, hash) => {
-        if (err) throw err;
-        user.password = hash;
-        user.save().then(user => {
-            req.flash('success_msg', 'User created');
-            res.redirect('/admin/dashboard');
-          })
-          .catch(err => console.log(err));
-      });
-    });
+    user.save()
+      .then(user => {
+        req.flash('success_msg', 'User created');
+        res.redirect('/admin/dashboard');
+      })
+      .catch(err => console.log(err));
   }
 ]

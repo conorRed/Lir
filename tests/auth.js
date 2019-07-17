@@ -18,13 +18,13 @@ describe('Authentication', function(){
 
   describe('Logged in (not admin)', function(){
     let regularUser;
-    var authenticatedUser = request.agent(app)
+    var authenticatedUser = request.agent('http://localhost:5000')
     before(function(done){
       regularUser = {
         id: 1,
         name: 'John Doe', 
         email: 'john@gmail.com', 
-        password: 'johndoe',
+        password: 'root',
         isAdmin: false,
         team: 'A'
       }
@@ -33,15 +33,18 @@ describe('Authentication', function(){
         if(err){throw err}
         done()
       })
-
     })
 
     it('should log user in', function(done){
       authenticatedUser
           .post('/users/login')
-          .auth({username: regularUser.email,
-            password: regularUser.password})
-          .expect(200)
+          .type('form')
+          .send({
+            email: regularUser.email,
+            password: regularUser.password
+          })
+          .expect(302)
+          .expect('Location', '/dashboard')
           .end((err, res) => {
             if(err){throw err}
             done()
@@ -50,11 +53,10 @@ describe('Authentication', function(){
 
     it('should show the users dashboard', function(done){
       authenticatedUser
-        .get('/dashboard')
+         .get('/dashboard')
          .expect(200)
          .end((err, res) => {
            if(err){throw err}
-           console.log(res)
            done()
         });
     })

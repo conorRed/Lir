@@ -16,10 +16,16 @@ router.get('/register', forwardAuthenticated, (req, res) => res.render('register
 router.post('/create', verifyAdmin, user_controller.user_create_post)
 
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/users/login',
-    failureFlash: true
+  passport.authenticate('local', (err, user, info) => {
+    if(err){throw err}
+    if(!user){
+      req.flash('error_msg', info.message);
+      res.redirect('/users/login');
+    }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.redirect('/dashboard');
+    });
   })(req, res, next);
 });
 
