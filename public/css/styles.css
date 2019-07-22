@@ -3,7 +3,14 @@
 }
 
 .fixed-card{
+  padding: 10px;
   max-height: 200px;
+}
+
+.links-card ul{
+  margin:10px;
+  padding:0px;
+  list-style-type: none;
 }
 
 .scroll-card{
@@ -22,3 +29,4 @@
 .fas{
   padding: 3px;
 }
+

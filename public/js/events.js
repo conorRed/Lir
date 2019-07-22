@@ -1,28 +1,45 @@
-function sendGET(url, callback){
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = function() { 
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-        callback(xmlHttp.response);
-  }
-  xmlHttp.open("GET", url, true); // true for asynchronous 
-  xmlHttp.send(null);
+var events = ["pass"]
+
+function sendGET(url){
+  return new Promise((resolve, reject) => {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, true); // true for asynchronous 
+    xmlHttp.onreadystatechange = () => { 
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        resolve(xmlHttp.response)
+    }
+    xmlHttp.onerror = () => {
+      reject(xmlHttp.statusText)
+    }
+    xmlHttp.send(null);
+  })
 }
 
-function passTemplate(docs){
-  for(let i in docs){
-    let pass = docs[i]
-    $('#passes').find('ul').append('<li class="list-group-item">\
-        <a href="#">From: '+pass.from+" To:"+ pass.to+"<br> Type: " + pass.type + " Area: "+pass.area+'</a></li>')
-  }
+function download_csv() {
+    sendGET('/api/events/'+window.location.href.split('/')[window.location.href.split('/').length-1])
+    .then((docs) => {
+      let jsonResponse = JSON.parse(docs)
+      let csv = ''
+      for(let index in events){
+        let eventName = events[index]
+        csv += Object.keys(jsonResponse[eventName][0]).join(',')
+        jsonResponse[eventName].forEach(function(el){
+          csv += Object.values(el).join(',')
+          csv += "\n";
+        })
+      }
+      var hiddenElement = document.createElement('a');
+      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+      hiddenElement.target = '_blank';
+      hiddenElement.download = 'stats.csv';
+      document.body.appendChild(hiddenElement)
+      hiddenElement.click();
+      document.body.removeChild(hiddenElement)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
-
-function toggleSpin(docs){
-  $("#spinner").css("display", "none")
-  let docsJSON = JSON.parse(docs)
-  passTemplate(docsJSON["pass"])
-}
-
-sendGET('/api/events/'+window.location.href.split('/')[window.location.href.split('/').length-1], toggleSpin)
 
 document.getElementById('passes').addEventListener('click',function(event){
   if(event.target.tagName === 'I'){
@@ -44,4 +61,11 @@ document.getElementById('passes').addEventListener('click',function(event){
     }
     console.log(doc)
   }
+})
+
+
+$(document).ready(function(){
+  $("#export").on("click", function(){
+    download_csv()
+  })
 })

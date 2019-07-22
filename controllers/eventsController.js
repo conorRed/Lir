@@ -67,11 +67,22 @@ exports.event_create_post = (req, res, next) => {
 // }
 
 exports.api_event_show_get = function(req, res, next){
-  this.response = {}
-  Object.keys(events).forEach( async function(key){
-    this.response[key] = await events[key].find({game: req.params.gameid})
-  }, this)
-  res.send(this.response)
+  eventNames = Object.keys(events)
+  var promises = {}
+  for([key, value] of Object.entries(events)){
+    promises[key] = events[key].find({game: req.params.gameid}, '-_id -__v', (err) => {
+      if(err){return next(err)}
+    })
+  }
+  Promise.all(Object.values(promises)).then((docs) => {
+    Object.keys(promises).map((key, index) => {
+      promises[key] = docs[index]
+    })
+    res.json(promises)
+  })
+  .catch((err) => {
+    if(err){return next(err)}
+  })
 }
 
 exports.api_event_create_post = (req, res, next) => {

@@ -8,12 +8,19 @@
   </div>
 <% } %>
 <div class="row">
-  <div class="col-sm-3 card fixed-card">
-    <h3>Details</h3>
-    <p><strong>Title: </strong><%= game.title %></p>
-    <p><strong>Home: </strong><%= game.home %></p>
-    <p><strong>Away: </strong><%= game.away %></p>
-    <p><strong>Venue: </strong><%= game.venue %></p>
+  <div class="col-sm-3 ">
+    <div class="card fixed-card">
+      <h3>Details</h3>
+      <p><strong>Title: </strong><%= game.title %></p>
+      <p><strong>Home: </strong><%= game.home %></p>
+      <p><strong>Away: </strong><%= game.away %></p>
+      <p><strong>Venue: </strong><%= game.venue %></p>
+    </div>
+    <div class="card links-card">
+      <ul>
+        <li><a href="#" id="export"><i class="fas fa-download"></i>Export</a></li>
+      </ul>
+    </div>
   </div>
   <div class="col-sm-6">
     <div id="passes" class="card">
