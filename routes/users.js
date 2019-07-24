@@ -14,6 +14,7 @@ router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
 
 router.post('/create', verifyAdmin, user_controller.user_create_post)
+router.post('/update/:id', verifyAdmin, user_controller.user_update_put)
 
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {

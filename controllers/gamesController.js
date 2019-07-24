@@ -1,3 +1,4 @@
+const Team = require('../models/team')
 const Game = require('../models/game')
 const Pass = require('../models/pass')
 const { body,validationResult } = require('express-validator');
@@ -47,12 +48,11 @@ exports.game_create_post = [
       home: req.body.home,
       away: req.body.away,
       venue: req.body.venue,
-      user: req.params.userId
     })
 
-    game.save(function(err){
+    game.save(function(err, saved){
       if(err){ return next(err)}
-      res.redirect('/dashboard')
+      res.redirect('/games/'+saved.id)
     })
   }
 ]

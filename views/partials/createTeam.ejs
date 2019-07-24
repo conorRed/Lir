@@ -1,0 +1,30 @@
+      <form action="/teams/create" method="POST">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="name"
+            id="name"
+            name="name"
+            class="form-control"
+            placeholder="Enter Team Name"
+            value="<%= typeof name != 'undefined' ? name : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="division">Division</label>
+          <select id="division" name="division">
+            <option value="Senior">Senior</option>
+            <option value="Intermediate">Intermediate</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="Men">Men</option>
+            <option value="Ladies">Ladies</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          Create
+        </button>
+      </form>

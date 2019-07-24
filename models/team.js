@@ -10,4 +10,5 @@ let TeamSchema = new Schema({
   games: [{type: Schema.Types.ObjectId, ref: 'Game'}]
 });
 
-module.exports = mongoose.model("team", TeamSchema);
+const Team = mongoose.model('Team', TeamSchema);
+module.exports = Team

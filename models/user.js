@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt= require('bcryptjs')
+var Schema = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -19,8 +20,8 @@ const UserSchema = new mongoose.Schema({
     default: Date.now
   },
   team: {
-    type: String,
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'Team'
   },
   isAdmin: {
       type: Boolean,

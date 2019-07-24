@@ -1,11 +1,24 @@
 <div class="dashboard-header">
   <h1 class="text-center">Users</h1>
+  <% if (typeof success_banner != 'undefined'){ %>
+    <div class="alert alert-dismissible alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong><%= success_banner %></strong>
+    </div>
+  <% }%>
 </div>
 <div class="row">
   <div class="col-sm-3 admin-options">
     <a class="btn btn-primary btn-block "
     href="#create-user"
     data-toggle="collapse">Create User</a>
+    <a class="btn btn-primary btn-block "
+    href="#create-team"
+    data-toggle="collapse">Create Team</a>
+    <div id="create-team" class="card card-body collapse">
+      <% include ../partials/messages %>
+      <% include ../partials/createTeam %>
+    </div>
     <div id="create-user" class="card card-body collapse">
       <% include ../partials/messages %>
       <form action="/users/create" method="POST">
@@ -69,4 +82,9 @@
       </form>
     </div>
   </div>
+  <div class="col-sm-6">
+    <% include ../partials/userItem %>
+  </div>
 </div>
+
+<script type="text/javascript" src="/js/admin.js"></script>

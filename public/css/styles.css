@@ -30,3 +30,10 @@
   padding: 3px;
 }
 
+img .team-profile{
+  border-radius: 50%;
+}
+
+#admin-list-users span{
+  margin-right: 40px
+}

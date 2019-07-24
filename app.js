@@ -43,6 +43,7 @@ app.use('/users', require('./routes/users.js'))
 app.use('/games', require('./routes/games.js'))
 app.use('/admin', require('./routes/admin.js'))
 app.use('/events', require('./routes/events.js'))
+app.use('/teams', require('./routes/teams.js'))
 app.use('/api', require('./routes/api/index.js'))
 const PORT = process.env.PORT || 5000;
 

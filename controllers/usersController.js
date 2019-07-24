@@ -33,3 +33,26 @@ exports.user_create_post = [
       .catch(err => console.log(err));
   }
 ]
+
+exports.user_show_get = (req, res, next) => {
+  User.find({}).populate('team')
+  .then((docs) => {
+    res.locals.users = docs
+    next()
+  })
+  .catch((err) => {
+    if(err){next(err)}
+  })
+}
+
+exports.user_update_put = (req, res, next) => {
+  let user = {
+    team: req.body.team,
+  }
+
+  User.findByIdAndUpdate(req.params.id, user, function(err){
+    if(err){ return next(err);}
+    req.flash("success_banner", "updated")
+    res.redirect('/admin');
+  })
+}

@@ -1,0 +1,30 @@
+<% if(locals.users){ %>
+  <ul class="list-group" id="admin-list-users">
+  <% users.forEach(function(user) { %>
+    <li class="list-group-item" id="<%=user.id%>">
+        <span><%= user.name %></span>
+        <span>Team: <%= user.team.name %></span>
+        <a href="#" id="edit-user-<%=user.id%>"><i class="fas fa-edit float-right"></i></a>
+
+        <!-- inline form to edit user -->
+        <form action="users/update/<%=user.id%>" method="POST" class="inline"
+        id="edit-user-<%=user.id%>" style="display: none;">
+          <input type="text" value="<%= user.name %>">
+          <% if(locals.teams){ %>
+            <label>Team</label>
+            <select name="team">
+              <% teams.forEach(function(team) { %>
+                <option value="<%=team.id%>"><%= team.name %></option>
+              <% }); %>
+            </select>
+          <% } %>
+          <a href="#" id="cancel-edit-<%=user.id%>"><i class="fas fa-times float-right"></i></a>
+          <button class="button-to-link float-right" type="submit">
+            <i class="fas fa-check float-right"></i>
+          </button>
+        </form>
+
+    </li>
+  <% }); %>
+  </ul>
+<% }%>
