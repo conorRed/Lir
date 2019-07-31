@@ -14,23 +14,28 @@ exports.user_create_post = [
   (req, res, next) => {
     const errors = validationResult(req);
 
-    console.log(errors)
     if(!errors.isEmpty()){
-      res.render('admin/dashboard', {errors: errors.array()})
+      req.flash('errors',  errors.array())
+      res.redirect('/admin')
+    }else{
+      const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        team: req.body.team,
+        isAdmin: req.body.isAdmin
+      });
+      user.save()
+        .then(user => {
+          req.flash('success_msg', 'User created');
+          res.redirect('/admin');
+        })
+        .catch(err =>{
+          console.log(err)
+          req.flash('error_msg', err.msg);
+          res.redirect('/admin');
+        });
     }
-    const user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      team: req.body.team,
-      isAdmin: req.body.isAdmin
-    });
-    user.save()
-      .then(user => {
-        req.flash('success_msg', 'User created');
-        res.redirect('/admin/dashboard');
-      })
-      .catch(err => console.log(err));
   }
 ]
 

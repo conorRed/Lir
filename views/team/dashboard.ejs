@@ -5,20 +5,23 @@
     <div class="col-sm-3">
       <a class="btn btn-primary btn-block" href="/games/create">Create game</a>
     </div>
-    <div class="col-sm-6">
-      <img src="#" class="team-profile" alt="team profile picture">
-      <div class="card">
-        <ul class="list-group">
-          <% if( typeof games != 'undefined') { %>
-            <% games.forEach(function(game) { %>
-                <li class="list-group-item card">
-                  <a href='/games/<%= game.id %>'><%= game.title %></a>
-                </li>
-            <% }); %>
-          <% } else { %>
-              <li class="list-group-item card">Nothing to see here...</li>
-          <% } %>
-        </ul>
+    <div class="col-sm-6" >
+      <div id="team-games-wrapper" class="jumbotron">
+        <div >
+          <ul class="list-group">
+            <% if( typeof games != 'undefined') { %>
+              <% games.forEach(function(game) { %>
+                <a href='/games/<%= game.id %>'>
+                  <li class="list-group-item card">
+                    <%= game.title %>
+                  </li>
+                </a>
+              <% }); %>
+            <% } else { %>
+                <li class="list-group-item card">Nothing to see here...</li>
+            <% } %>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

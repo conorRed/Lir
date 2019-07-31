@@ -1,4 +1,3 @@
-<%= console.log(success_msg) %>
 <% if(success_msg  != ''){ %>
   <div class="alert alert-success alert-dismissible fade show row" role="alert">
     <%= success_msg %>
@@ -12,8 +11,8 @@
     <div class="card fixed-card">
       <h3>Details</h3>
       <p><strong>Title: </strong><%= game.title %></p>
-      <p><strong>Home: </strong><%= game.home %></p>
-      <p><strong>Away: </strong><%= game.away %></p>
+      <p><strong>Home: </strong><%= game.home.name %></p>
+      <p><strong>Away: </strong><%= game.away.name %></p>
       <p><strong>Venue: </strong><%= game.venue %></p>
     </div>
     <div class="card links-card">

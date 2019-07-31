@@ -30,10 +30,23 @@
   padding: 3px;
 }
 
-img .team-profile{
-  border-radius: 50%;
+.team-profile-picture{
+  z-index: 1;
+  position: absolute;
 }
 
 #admin-list-users span{
   margin-right: 40px
+}
+
+#team-games-wrapper{
+  z-index: -1;
+  padding-top: 50px;
+  border-radius: 5px 5px 0 0;
+  background-color: #dfe3ee;
+  border-bottom: 1px solid #dddfe2;
+}
+
+body{
+  background-color: #f7f7f7;
 }

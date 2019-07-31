@@ -5,7 +5,6 @@ const { body,validationResult } = require('express-validator');
 const async = require('async')
 
 exports.index = (req, res) => {
-  console.log(req)
   Game.find({}, 'title home away venue _id')
     .exec(function (err, list_games) {
       if (err) { return next(err); }
@@ -16,7 +15,11 @@ exports.index = (req, res) => {
 exports.game_show_get = (req, res, next) => {
   async.parallel({
     game: function(callback){
-      Game.findById(req.params.id, 'title home away venue _id') .exec(callback);
+      Game.findById(req.params.id)
+        .populate({path:'away', select: 'name'})
+        .populate({path:'home', select: 'name'})
+        .populate('team')
+        .exec(callback);
     },
     passes: function(callback){
       Pass.find({game: req.params.id}).exec(callback)
@@ -28,34 +31,24 @@ exports.game_show_get = (req, res, next) => {
 }
 
 exports.game_create_get = (req, res, next) => {
-  res.render('./game/create')
+  res.render('game/create')
 }
 
-exports.game_create_post = [
-  body('title', 'Title not be empty').isLength({min: 1}).trim(),
-  body('away', 'Away not be empty').isLength({min: 1}).trim(),
-  body('home', 'Home not be empty').isLength({min: 1}).trim(),
-  body('venue', 'Venue not be empty').isLength({min: 1}).trim(),
-  (req, res, next) => {
-    const errors = validationResult(req);
+exports.game_create_post = (req, res, next) => {
+  let game = new Game({
+    title: req.body.title,
+    home: req.body.home,
+    away: req.body.away,
+    venue: req.body.venue,
+    team: req.body.teamId
+  })
 
-    if(!errors.isEmpty()){
-      res.render('game/create', {errors: errors.array()})
-    }
-
-    let game = new Game({
-      title: req.body.title,
-      home: req.body.home,
-      away: req.body.away,
-      venue: req.body.venue,
-    })
-
-    game.save(function(err, saved){
-      if(err){ return next(err)}
-      res.redirect('/games/'+saved.id)
-    })
-  }
-]
+  game.save(function(err, saved){
+    if(err){ return next(new Error("Game not created"))}
+    req.flash('success_msg', "Game Created")
+    res.redirect('/games/'+saved.id)
+  })
+}
 
 exports.list_games = (req, res, next) => {
   let user = req.user

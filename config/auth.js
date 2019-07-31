@@ -4,7 +4,8 @@ module.exports = {
       res.locals.user = {
         name: req.user.name, 
         id: req.user.id ,
-        isAdmin: req.user.isAdmin
+        isAdmin: req.user.isAdmin,
+        team: req.user.team
       }
       return next();
     }
@@ -25,6 +26,6 @@ module.exports = {
     if (!req.isAuthenticated()) {
       return next();
     }
-    res.redirect('/dashboard');
+    res.redirect('/teams/'+req.user.team);
   }
 };

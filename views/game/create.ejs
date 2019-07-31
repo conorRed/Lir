@@ -11,27 +11,30 @@
             name="title"
             class="form-control"
             placeholder="Enter Title"
+            required
           />
         </div>
         <div class="form-group">
           <label for="home"></label>
-          <input
-            type="text"
-            id="home"
-            name="home"
-            class="form-control"
-            placeholder="Enter Home"
-          />
+          <% if(locals.teams){ %>
+            <select class= "custom-select" name="home" required>
+                <option value="" selected disabled>Select Home team</option>
+              <% teams.forEach(function(team) { %>
+                <option value="<%=team.id%>"><%= team.name %></option>
+              <% }); %>
+            </select>
+          <% } %>
         </div>
         <div class="form-group">
           <label for="away"></label>
-          <input
-            type="text"
-            id="away"
-            name="away"
-            class="form-control"
-            placeholder="Enter Away"
-          />
+          <% if(locals.teams){ %>
+            <select class= "custom-select" name="away" required>
+                <option value="" selected disabled>Select Away team</option>
+              <% teams.forEach(function(team) { %>
+                <option value="<%=team.id%>"><%= team.name %></option>
+              <% }); %>
+            </select>
+          <% } %>
         </div>
         <div class="form-group">
           <label for="venue"></label>
@@ -41,12 +44,13 @@
             name="venue"
             class="form-control"
             placeholder="Enter Venue"
+            required
           />
         </div>
         <input
             type="hidden"
             name="teamId"
-            value="<%=user.team"
+            value="<%=user.team%>"
             class="form-control"
         />
         <button type="submit" class="btn btn-primary

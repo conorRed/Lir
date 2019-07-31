@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "NODE_ENV=test mocha tests/*.js "
+    "test": "NODE_ENV=test mocha --exit tests/*.js"
   },
   "dependencies": {
     "async": "^3.1.0",

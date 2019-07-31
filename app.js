@@ -34,6 +34,7 @@ app.use(flash())
 // rather than using req.flash(...) in views
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg');
+  res.locals.errors = req.flash('errors');
   res.locals.error_msg = req.flash('error_msg');
   next();
 })
@@ -48,6 +49,11 @@ app.use('/api', require('./routes/api/index.js'))
 const PORT = process.env.PORT || 5000;
 
 let server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
+function stop(){
+  server.close()
+}
+
+
 
 process.on('SIGINT', function() {
   console.log("Shutting down server")
@@ -58,4 +64,5 @@ process.on('SIGINT', function() {
       });
     });
   })
-module.exports = {app, server}
+module.exports = app
+module.exports.stop = stop

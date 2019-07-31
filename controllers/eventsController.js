@@ -53,7 +53,7 @@ exports.event_create_post = (req, res, next) => {
 
   event.save(function(err){
     if(err){ return next(err);}
-    res.locals.success_msg = "confirmed"
+    res.locals.success_msg = "Event Created"
     res.redirect('/games/'+req.body.game);
   })
 }
