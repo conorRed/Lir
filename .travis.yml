@@ -19,6 +19,6 @@ script:
 deploy:
   skip_cleanup: true
   provider: script
-  script: .travis/deploy.sh
+  script: chmod +x .travis/deploy.sh && .travis/deploy.sh
   on:
     branch: master
