@@ -8,6 +8,7 @@ install:
   - npm install
   - npm test
 deploy:
+  skip_cleanup: true
   provider: script
   script: .travis/deploy.sh
 
