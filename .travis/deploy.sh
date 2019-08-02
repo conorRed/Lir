@@ -5,6 +5,8 @@ if [ $TRAVIS_BRANCH == "master" ] ; then
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/travis_rsa
 
+  echo "Checkout branch"
+  git checkout "$TRAIVS_BRANCH"
   echo "Set up remote"
   git remote add deploy "travis@46.101.23.183:/var/www/lir.com"
   git config user.name "Travis CI"
