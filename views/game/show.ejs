@@ -31,7 +31,7 @@
       </div>
       <div class="scroll-card">
         <ul class="list-group">
-          <% include ../partials/event %>
+          <% include ../partials/events/pass %>
         </ul>
       </div>
     </div>
@@ -51,8 +51,6 @@
         </div>
         <div class="modal-body">
           <% include ../partials/addPass %>
-          <input type="hidden" value="pass" name="eventType" form="event-list-add-form">
-          <input type="hidden" value="<%= game.id %>" name="game" form="event-list-add-form">
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary" form="event-list-add-form">Add</button>
@@ -73,7 +71,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <% include ../partials/event/update %>
+          <% include ../partials/events/update %>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" form="event-list-update-form" class="btn btn-primary"

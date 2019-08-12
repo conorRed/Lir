@@ -1,6 +1,6 @@
 const Team = require('../models/team')
 const Game = require('../models/game')
-const Pass = require('../models/pass')
+const Pass = require('../models/events/pass')
 const { body,validationResult } = require('express-validator');
 const async = require('async')
 

@@ -29,7 +29,7 @@
       </div>
       <form action="/events/delete" method="POST" id="delete-pass-<%=pass.id%>">
         <input type="hidden" value="pass" name="eventType">
-        <input type="hidden" value="<%= pass.id %>" name="passId">
+        <input type="hidden" value="<%= pass.id %>" name="eventId">
         <input type="hidden" value="<%= game.id %>" name="game">
       </form>
     </li>
