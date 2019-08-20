@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "NODE_ENV=test mocha --exit tests/*.js"
+    "test": "NODE_ENV=test mocha --exit --recursive tests",
+    "test-single": "NODE_ENV=test mocha --exit"
   },
   "dependencies": {
     "async": "^3.1.0",

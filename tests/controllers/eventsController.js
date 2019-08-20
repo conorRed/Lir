@@ -1,10 +1,10 @@
 const sinon = require('sinon')
-const app = require('../app')
-const Pass = require('../models/events/pass')
-const Team = require('../models/team')
-const Game = require('../models/game')
+const app = require('../../app')
+const Pass = require('../../models/events/pass')
+const Team = require('../../models/team')
+const Game = require('../../models/game')
 var ObjectId = require('mongoose').Types.ObjectId;
-const events_controller = require('../controllers/eventsController')
+const events_controller = require('../../controllers/eventsController')
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 // Configure chai
@@ -35,15 +35,20 @@ describe('Events Controller', function(){
       eventType: 'pass',
       game: id(),
       id: id()
+    },
+    params: {
+      gameid: ''
     }
   },
   // server error
   res = {}, 
   expectedResult;
 
+  let next = sinon.stub()
   beforeEach(function () {
     req.flash = sinon.spy()
     res = {
+      json: sinon.spy(),
       redirect: sinon.spy()
     };
   });
@@ -51,11 +56,12 @@ describe('Events Controller', function(){
   describe('#create', function(){
     it('should create pass event', function () {
       expectedResult = req.body
-      let pass = Pass.prototype
-      sinon.stub(pass, 'save').yields(null, expectedResult)
+      let pass = Pass
+      sinon.stub(pass, 'create').yields(null, expectedResult)
       events_controller.event_create_post(req, res);
-      sinon.assert.calledOnce(pass.save)
+      sinon.assert.calledOnce(pass.create)
       sinon.assert.calledWith(res.redirect, '/games/'+req.body.game)
+      sinon.assert.calledOnce(req.flash)
       sinon.assert.calledWith(req.flash, 'success_msg', 'Event Created')
     });
   })
@@ -73,7 +79,6 @@ describe('Events Controller', function(){
 
     it('should return event type not set', function () {
       req.body.eventType = 'another'
-      let next = sinon.stub()
       let expectedError = new Error('Event type not set')
       sinon.stub(Pass, 'findByIdAndUpdate')
       events_controller.event_update_post(req, res, next);
@@ -91,6 +96,15 @@ describe('Events Controller', function(){
       sinon.assert.calledWith(Pass.findByIdAndDelete, req.body.eventId);
       sinon.assert.calledWith(res.redirect, '/games/'+req.body.game)
       sinon.assert.calledWith(req.flash, 'success_msg', 'Event Deleted')
+    });
+  })
+  describe('api#show', function(){
+    let expectedResult = {'pass': []}
+    it('should return all events for game', async function () {
+      sinon.stub(Pass, 'find').yields(null).resolves([])
+      await events_controller.api_event_show_get(req, res);
+      sinon.assert.calledOnce(Pass.find)
+      sinon.assert.calledWith(res.json, expectedResult)
     });
   })
 })

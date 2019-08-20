@@ -14,6 +14,12 @@ module.exports = {
   },
   verifyAdmin: function(req, res, next) {
     if (req.isAuthenticated() && req.user.isAdmin) {
+      res.locals.user = {
+        name: req.user.name, 
+        id: req.user.id ,
+        isAdmin: req.user.isAdmin,
+        team: req.user.team
+      }
       return next();
     }else{
       req.flash('error_msg', 'You are not admin');

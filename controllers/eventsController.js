@@ -14,8 +14,7 @@ function _constructDoc(body){
     if(attr == '__v' ){continue;}
     doc[attr] = body[attr]
   }
-  let model = new eventModel(doc)
-  return model
+  return doc
 }
 
 exports.event_delete_post = (req, res, next) => {
@@ -29,7 +28,7 @@ exports.event_delete_post = (req, res, next) => {
 }
 
 exports.event_update_post = (req, res, next) => {
-  if(!(req.body.eventType in events)) return next(new Error('Event type not set'))
+  if(!(events.hasOwnProperty(req.body.eventType))) return next(new Error('Event type not set'))
   let event = _constructDoc(req.body)
 
   events[req.body.eventType].findByIdAndUpdate(req.body.eventId, event, function(err){
@@ -40,9 +39,10 @@ exports.event_update_post = (req, res, next) => {
 }
 
 exports.event_create_post = (req, res, next) => {
+  if(!(events.hasOwnProperty(req.body.eventType))) return next(new Error('Event type not set'))
   let event = _constructDoc(req.body)
 
-  event.save(function(err, saved){
+  events[req.body.eventType].create(event, function(err, saved){
     if(err) return next(new Error("Could not create event"));
     req.flash('success_msg', 'Event Created')
     return res.redirect('/games/'+req.body.game);
@@ -65,7 +65,7 @@ exports.api_event_show_get = function(req, res, next){
       if(err){return next(err)}
     })
   }
-  Promise.all(Object.values(promises)).then((docs) => {
+  return Promise.all(Object.values(promises)).then((docs) => {
     Object.keys(promises).map((key, index) => {
       promises[key] = docs[index]
     })

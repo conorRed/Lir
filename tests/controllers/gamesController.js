@@ -1,6 +1,6 @@
-const Game = require('../models/game')
-const Team = require('../models/team')
-const app = require('../app')
+const Game = require('../../models/game')
+const Team = require('../../models/team')
+const app = require('../../app')
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 // Configure chai

@@ -1,39 +1,151 @@
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">From</th>
+        <th scope="col">To</th>
+        <th scope="col">Outcome</th>
+        <th scope="col">Area</th>
+        <th scope="col">Type</th>
+      </tr>
+    </thead>
 <% if(passes) { %>
-  <% passes.forEach(function(pass) { %>
-    <li class="list-group-item card">
-      <div class="text-dark">
-        <span><%= pass.from %></span>
-        <i class="fas fa-arrow-right"></i>
-        <span><%= pass.to %></span>
-        <span><%= pass.outcome %></span>
-        <span><%= pass.area %></span>
-        <span><%= pass.type %></span>
-        <button class="button-to-link float-right edit-event"
-        type="button" form="edit-pass-<%=pass.id%>"
-        data-toggle="modal" data-target="#updatePass">
-          <i class="fas fa-edit float-right"></i>
-        </button>
-        <form style="display: none;" type="hidden" id="edit-pass-<%=pass.id%>">
-          <input type="hidden" value="<%= pass.from %>" name="from">
-          <input type="hidden" value="<%= pass.to %>" name="to">
-          <input type="hidden" value="<%= pass.outcome %>" name="outcome">
-          <input type="hidden" value="<%= pass.area %>" name="area">
-          <input type="hidden" value="<%= pass.type %>" name="type">
-          <input type="hidden" value="<%= pass.id %>" name="passId">
-          <input type="hidden" value="<%= game.id %>" name="game">
-        </form>
-        <button class="button-to-link float-right" type="submit"
-        form="delete-pass-<%=pass.id%>">
-          <i class="fas fa-trash-alt float-right"></i>
-        </button>
-      </div>
+  <% passes.forEach(function(pass, index) { %>
+    <tr id="pass-<%=pass.id%>">
+      <th scope="row"><%= index+1 %></th>
+      <form action='/events/update' method="POST" 
+      type="hidden" id="update-pass-<%=pass.id%>" >
+        <td><span><%= pass.from %></span>
+        <select style="display: none;" class="browser-default form-control" value="<%=
+        pass.from%>" name="from">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+        </select>
+        </td>
+        <td><span><%= pass.to %></span>
+          <select style="display: none;" class="browser-default
+          form-control" value="<%= pass.to%>" name="to">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+          </select>
+        </td>
+        <td><span><%= pass.outcome %></span>
+          <select value="<%=pass.outcome%>" style="display:none;" class="browser-default form-control" name="outcome">
+            <option value="Lateral">Lateral</option>
+            <option value="Forward">Forward</option>
+            <option value="Back">Back</option>
+            <option value="Turnover">Turnover</option>
+            <option value="Score">Score</option>
+            <option value="Other">Other</option>
+          </select>
+        </td>
+        <td><span><%= pass.area %></span>
+          <select style="display:none;" class="browser-default
+          form-control" name="area">
+            <option value="Back">Back</option>
+            <option value="Mid">Mid</option>
+            <option value="Forward">Forward</option>
+          </select>
+        </td>
+        <td><span><%= pass.type %></span>
+        <div class="form-group">
+          <select style="display: none;" class="browser-default
+          form-control" name="type">
+            <option value="Foot">Foot</option>
+            <option value="Hand">Hand</option>
+          </select>
+        </td>
+        <input type="hidden" value="pass" name="eventType">
+        <input type="hidden" value="<%= pass.id %>" name="eventId">
+        <input type="hidden" value="<%= game.id %>" name="game">
+      </form>
+        <td>
+          <button class="button-to-link edit-event"
+          onclick="editEvent('<%=pass.id%>')"
+          id="edit-pass-btn-<%=pass.id%>">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="button-to-link" type="submit"
+          form="delete-pass-<%=pass.id%>" id="remove-pass-<%=pass.id%>">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+          <button class="button-to-link float-right" type="submit"
+          id="update-pass-btn-<%=pass.id%>" style="display: none;"
+          form="update-pass-<%=pass.id%>">
+            <i class="fas fa-check"></i>
+          </button>
+          <button class="button-to-link float-right" 
+          style="display: none;" id="cancel-pass-btn-<%=pass.id%>"
+          onclick="cancelEdit('<%=pass.id%>')">
+            <i class="fas fa-window-close"></i>
+          </button>
+        </td>
       <form action="/events/delete" method="POST" id="delete-pass-<%=pass.id%>">
         <input type="hidden" value="pass" name="eventType">
         <input type="hidden" value="<%= pass.id %>" name="eventId">
         <input type="hidden" value="<%= game.id %>" name="game">
       </form>
-    </li>
+    </tr>
   <% }); %>
 <% } else { %>
   <li class="list-group-item card">Nothing to see here...</li>
 <% } %>
+  </table>
+</div>
